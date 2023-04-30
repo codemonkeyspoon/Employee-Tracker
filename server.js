@@ -63,3 +63,30 @@ const startMenu = () => {
         }
       });
   };
+
+  const viewDepartment = () => {
+    connection.query('SELECT * FROM department', function (err, res) {
+      if (err) throw err;
+      console.table(res);
+      startMenu();
+    });
+  };
+  
+  const viewJobs = () => {
+    connection.query('SELECT * FROM job', function (err, res) {
+      if (err) throw err;
+      console.table(res);
+      startMenu();
+    });
+  };
+  
+  const viewEmployees = () => {
+    connection.query(
+      'SELECT employee.id, first_name, last_name, title, salary, dept_name, manager_id FROM ((department JOIN job ON department.id = job.department_id) JOIN employee ON job.id = employee.job_id);',
+      function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        startMenu();
+      }
+    );
+  };
